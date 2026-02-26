@@ -1,1 +1,4 @@
 # VideoDownloader
+
+sudo apt update  
+sudo apt install ffmpeg -y
