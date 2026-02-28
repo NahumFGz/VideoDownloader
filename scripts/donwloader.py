@@ -7,7 +7,7 @@ OUTPUT_DIR = PROJECT_ROOT / "data" / "original"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-url = "https://www.youtube.com/shorts/YloxugVvPus"
+url = "https://www.dailymotion.com/video/x98irz0"
 
 ydl_opts = {
     'format': 'bestvideo+bestaudio/best',
