@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -163,6 +164,13 @@ def main() -> None:
         raise FileNotFoundError(f"No existe INPUT_DIR: {INPUT_DIR}")
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Limpiar archivos existentes en OUTPUT_DIR antes de procesar
+    for item in OUTPUT_DIR.iterdir():
+        if item.is_file():
+            item.unlink()
+        elif item.is_dir():
+            shutil.rmtree(item)
 
     videos = [p for p in INPUT_DIR.rglob("*") if p.suffix.lower() in VIDEO_EXTS]
     if not videos:
