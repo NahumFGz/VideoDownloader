@@ -7,7 +7,7 @@ OUTPUT_DIR = PROJECT_ROOT / "data" / "original"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-url = "https://archive.org/details/realmadridvsjuventus2018/Real+Madrid+vs+Juventus+(2).mp4"
+url = ""
 
 ydl_opts = {
     'format': 'bestvideo+bestaudio/best',
