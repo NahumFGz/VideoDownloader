@@ -8,12 +8,12 @@ import cairosvg
 from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-IMAGE_DIR = PROJECT_ROOT / "data" / "image"
-OUTPUT_PATH = PROJECT_ROOT / "data" / "favicons"
+INPUT_DIR = PROJECT_ROOT / "data" / "image"
+OUTPUT_DIR = PROJECT_ROOT / "data" / "favicons"
 
-FAVICON_SVG = IMAGE_DIR / "favicon.svg"
-FAVICON_PNG = IMAGE_DIR / "favicon.png"
-OG_IMAGE_PNG = IMAGE_DIR / "og-image.png"
+FAVICON_SVG = INPUT_DIR / "favicon.svg"
+FAVICON_PNG = INPUT_DIR / "favicon.png"
+OG_IMAGE_PNG = INPUT_DIR / "og-image.png"
 
 FAVICON_SIZES = [16, 32, 48, 192, 512]
 APPLE_SIZES = [120, 152, 180]
@@ -22,7 +22,7 @@ OG_IMAGE_SIZE = (1200, 630)
 
 
 def ensure_output_path() -> None:
-    OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_base_icon() -> Image.Image:
@@ -40,7 +40,7 @@ def load_base_icon() -> Image.Image:
 def generate_png_variants(base_icon: Image.Image, sizes: list[int], name_pattern: str) -> None:
     for size in sizes:
         resized = base_icon.resize((size, size), Image.Resampling.LANCZOS)
-        target = OUTPUT_PATH / name_pattern.format(size=size)
+        target = OUTPUT_DIR / name_pattern.format(size=size)
         resized.save(target, format="PNG")
 
 
@@ -53,13 +53,13 @@ def generate_apple_icons(base_icon: Image.Image) -> None:
 
 
 def generate_favicon_ico(base_icon: Image.Image) -> None:
-    target = OUTPUT_PATH / "favicon.ico"
+    target = OUTPUT_DIR / "favicon.ico"
     base_icon.save(target, format="ICO", sizes=[(size, size) for size in ICO_SIZES])
 
 
 def copy_svg() -> None:
     if FAVICON_SVG.exists():
-        shutil.copy2(FAVICON_SVG, OUTPUT_PATH / "favicon.svg")
+        shutil.copy2(FAVICON_SVG, OUTPUT_DIR / "favicon.svg")
 
 
 def generate_og_image() -> None:
@@ -76,7 +76,7 @@ def generate_og_image() -> None:
         og_img = og_img.convert("RGB")
     if og_img.size != OG_IMAGE_SIZE:
         og_img = og_img.resize(OG_IMAGE_SIZE, Image.Resampling.LANCZOS)
-    og_img.save(OUTPUT_PATH / "og-image.jpg", format="JPEG", quality=90, optimize=True)
+    og_img.save(OUTPUT_DIR / "og-image.jpg", format="JPEG", quality=90, optimize=True)
 
 
 def main() -> None:
@@ -87,7 +87,7 @@ def main() -> None:
     generate_apple_icons(base_icon)
     generate_favicon_ico(base_icon)
     generate_og_image()
-    print(f"Imágenes generadas en {OUTPUT_PATH}")
+    print(f"Imágenes generadas en {OUTPUT_DIR}")
 
 
 if __name__ == "__main__":
